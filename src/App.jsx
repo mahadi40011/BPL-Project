@@ -10,19 +10,23 @@ import Loading from "./components/Loading";
 const playersPromise = fetch("/Players.json").then(res => res.json())
 
 
+
 function App() {
 
   const [toggle, setToggle] = useState(true)
+  const [availableBalance, setAvailableBalance] = useState(600000)
+  const [purchasedPlayers, setPurchasedPlayers] = useState([])
+  const [isSelected, setIsSelected] = useState(false);
 
   return (
     <>
-      <Navbar></Navbar>
-      <Banner></Banner>
-      <CommonElement toggle={toggle} setToggle={setToggle}></CommonElement>
+      <Navbar availableBalance={availableBalance}></Navbar>
+      {/* <Banner></Banner> */}
+      <CommonElement toggle={toggle} setToggle={setToggle} purchasedPlayers={purchasedPlayers}></CommonElement>
       {
         toggle === true ? <Suspense fallback={<Loading></Loading>}>
-        <AvailablePlayers playersPromise={playersPromise}></AvailablePlayers>
-      </Suspense> : <SelectedPlayers></SelectedPlayers>
+        <AvailablePlayers playersPromise={playersPromise} setAvailableBalance={setAvailableBalance} availableBalance={availableBalance} purchasedPlayers={purchasedPlayers} setPurchasedPlayers={setPurchasedPlayers} isSelected={isSelected} setIsSelected={setIsSelected}></AvailablePlayers>
+      </Suspense> : <SelectedPlayers purchasedPlayers={purchasedPlayers} setPurchasedPlayers={setPurchasedPlayers}></SelectedPlayers>
       }
       
       

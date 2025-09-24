@@ -1,12 +1,36 @@
-import React from "react";
-
-const Player = ({ player }) => {
-
-  const { playerImage, playerName, country, playerType, playerRating, bowlingStyle, battingStyle, playerPrice } = player;
+const Player = ({ player, setAvailableBalance, availableBalance, setPurchasedPlayers, purchasedPlayers, setIsSelected, isSelected}) => {
+  const {
+    playerImage,
+    playerName,
+    country,
+    playerType,
+    playerRating,
+    bowlingStyle,
+    battingStyle,
+    playerPrice,
+  } = player;
   
+  
+
+  const price = parseInt(playerPrice.split("$").join("").split(",").join(""))
+  
+  const handleClicked = (player) => {
+    if(availableBalance < price){
+      alert("Unavailable Coin")
+      return
+    }
+    setIsSelected(true)
+    setAvailableBalance(availableBalance - price)
+    setPurchasedPlayers([...purchasedPlayers, player])
+  }
+
   return (
     <div className="p-5 border border-gray-300 rounded-xl shadow-lg">
-      <img className="rounded-xl h-56 w-full object-cover" src={playerImage} alt="" />
+      <img
+        className="rounded-xl h-56 w-full object-cover"
+        src={playerImage}
+        alt=""
+      />
       <h1 className="font-semibold text-xl mt-6 mb-4">{playerName}</h1>
       <div className="flex justify-between items-center mb-4 ">
         <span className="text-gray-500 font-semibold">{country}</span>
@@ -24,7 +48,13 @@ const Player = ({ player }) => {
         </div>
         <div className="flex justify-between items-center">
           <span className="font-bold">Price: {playerPrice}</span>
-          <button className="btn py-2 px-4 rounded-lg border border-gray-200 cursor-pointer">Choose Player</button>
+          <button
+            disabled={isSelected}
+            onClick={() => handleClicked(player)}
+            className="btn py-2 px-4 rounded-lg border border-gray-200 cursor-pointer"
+          >
+            {isSelected === true ? "Selected" : "Choose Player"}
+          </button>
         </div>
       </div>
     </div>

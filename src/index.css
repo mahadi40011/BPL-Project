@@ -1,2 +1,11 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+.btn-style{
+  @apply font-medium cursor-pointer px-7 py-3 border border-gray-300
+}
+
+.btn-toggle-style{
+  @apply bg-[#E7FE29] !font-bold
+}
