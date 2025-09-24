@@ -2,7 +2,7 @@ import React from 'react';
 
 const SelectedPlayers = () => {
   return (
-    <div>
+    <div className='w-10/12 mx-auto'>
       i am
     </div>
   );
