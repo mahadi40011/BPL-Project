@@ -1,4 +1,6 @@
-const Player = ({ player, setAvailableBalance, availableBalance, setPurchasedPlayers, purchasedPlayers, setIsSelected, isSelected}) => {
+import { toast } from "react-toastify";
+
+const Player = ({ player, setAvailableBalance, availableBalance, setPurchasedPlayers, purchasedPlayers}) => {
   const {
     playerImage,
     playerName,
@@ -10,18 +12,21 @@ const Player = ({ player, setAvailableBalance, availableBalance, setPurchasedPla
     playerPrice,
   } = player;
   
-  
 
   const price = parseInt(playerPrice.split("$").join("").split(",").join(""))
   
   const handleClicked = (player) => {
-    if(availableBalance < price){
-      alert("Unavailable Coin")
+    if(purchasedPlayers.length >= 6){
+      toast("6 Players already Selected")
       return
     }
-    setIsSelected(true)
+    if(availableBalance < price){
+      toast("Unavailable Coin")
+      return
+    }
     setAvailableBalance(availableBalance - price)
     setPurchasedPlayers([...purchasedPlayers, player])
+    toast("Player Selected")
   }
 
   return (
@@ -49,11 +54,11 @@ const Player = ({ player, setAvailableBalance, availableBalance, setPurchasedPla
         <div className="flex justify-between items-center">
           <span className="font-bold">Price: {playerPrice}</span>
           <button
-            disabled={isSelected}
+            disabled={purchasedPlayers.some(anything => anything.playerName === playerName)}
             onClick={() => handleClicked(player)}
             className="btn py-2 px-4 rounded-lg border border-gray-200 cursor-pointer"
           >
-            {isSelected === true ? "Selected" : "Choose Player"}
+            {purchasedPlayers.some(anything => anything.playerName === playerName) ? "Selected" : "Choose Player"}
           </button>
         </div>
       </div>
